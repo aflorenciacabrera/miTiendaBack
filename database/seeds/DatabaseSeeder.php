@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductoTableSeeder::class);
         //Clientes cargados
         $this->call(ClienteTableSeeder::class);
+        
     }
 }

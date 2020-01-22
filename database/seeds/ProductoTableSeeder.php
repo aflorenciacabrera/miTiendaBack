@@ -36,5 +36,13 @@ class ProductoTableSeeder extends Seeder
         $producto->descripcion = '5 x 10 cm';
         $producto->imagenProducto = '';
         $producto->save();
+
+        $producto = new producto();
+        $producto->titulo = 'Letra D';
+        $producto->categoria = '3D';
+        $producto->precio = '$50';
+        $producto->descripcion = '5 x 10 cm';
+        $producto->imagenProducto = '';
+        $producto->save();
     }
 }
