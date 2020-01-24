@@ -29,9 +29,9 @@ class JwtAuth{
             // Generar el token y devolverlo
             $token =array(
                 'sub' => $user -> id,
-                'email'=> $user -> email,
                 'name' => $user -> name,
-                'lat' => time(), //cuando se creó el toquen
+                'email'=> $user -> email,
+                'lat' => time(), //cuando se creó el token
                 'expo' =>time() + (7 * 24 * 60 *60) //cuando va a expirar (1 semana)
             );
 

@@ -23,3 +23,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::post('api/producto','ProductoController@index');
 
 Route::resource('producto', 'ProductoController');
+
+Route::post('api/login', 'Auth\LoginController@login');

@@ -29,21 +29,21 @@ class UserTableSeeder extends Seeder
         $user = new User();
         $user->name = 'Admin';
         $user->email = 'admin@example.com';
-        $user->password = bcrypt('12345678');
+        $user->password =hash('sha256', '12345678');
         $user->save();
         $user->roles()->attach($role_admin);
 
         $user = new User();
         $user->name = 'Empleado 1';
         $user->email = 'empleado1@example.com';
-        $user->password = bcrypt('12345678');
+        $user->password = hash('sha256', '12345678');
         $user->save();
         $user->roles()->attach($role_empleado);
 
         $user = new User();
         $user->name = 'Cliente 1';
         $user->email = 'cliente1@example.com';
-        $user->password = bcrypt('12345678');
+        $user->password = hash('sha256', '12345678');
         $user->save();
         $user->roles()->attach($role_cliente);
     }
