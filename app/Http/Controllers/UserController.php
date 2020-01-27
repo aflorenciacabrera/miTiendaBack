@@ -14,14 +14,52 @@ class UserController extends Controller
         //Recoger post que llega
         $json = $request->input('json', null);
         //Decodificacion del json a un objeto para usarlo en php
-        $param = json_decode($json);
+        $params = json_decode($json);
 
         //variables
-        $name
-        $email
-        $rol
-        $password
+        $name = (!is_null($json) && isset($params->name))? $params->name : null;
+        $email = (!is_null($json) && isset($params->email))? $params->email : null;
+        //  $rol = '';
+        $password = (!is_null($json) && isset($params->password))? $params->password : null;
 
+        if(!is_null($email) && !is_null($password) && !is_null($name)){
+            //crea el usario
+            $user = new  User();
+            $user->name =$name;
+            $user->email =$email;
+            // $user->role = $rol;
+            //cifrar el passwerd
+            $pwd = hash('sha256', $password);
+            $user->password =$pwd;
+
+            //Comprobar usuario duplicado 
+            $isset_user = User::where('email', $email)->first(); //Primer registro
+
+            if(!($isset_user)){
+                //guardar el usuario
+                $user->save();
+
+                $data = array(
+                    'status' => 'success',
+                    'code' => 200,
+                    'message' => 'Usuario registrado correctamente'
+                );
+            }else{
+                //No guardar porque ya existe
+                $data = array(
+                    'status' => 'error',
+                    'code' => 400,
+                    'message' => 'Usuario duplicado, no puede registrarse'
+                );
+            }
+        }else{
+            $data = array(
+                'status' => 'Error',
+                'code' => 400,
+                'message' => 'Usuario no encontrado'
+            );
+        }
+        return response()->json($data,$data['code']);
     }
 
     //Login por API
