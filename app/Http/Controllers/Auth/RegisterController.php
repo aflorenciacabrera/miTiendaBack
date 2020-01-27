@@ -77,7 +77,28 @@ class RegisterController extends Controller
             'password'=>hash('sha256', $data['password']),
 
         ]);
-       $user->roles()->attach(Role::where('name', 'user')->first());
-       return $user;
+        // $user->roles()->attach(Role::where('name', 'user')->first());
+        // return $user;
+            switch ($data['rol']) {
+                case 'admin':
+                $user
+                    ->roles()
+                    ->attach(Role::where('name', 'admin')->first());
+                break;
+
+                case 'cliente':
+                $user
+                    ->roles()
+                    ->attach(Role::where('name', 'empleado')->first());
+                break;
+
+                case 'tecnico':
+                    $user
+                    ->roles()
+                    ->attach(Role::where('name', 'cliente')->first());
+                break;
+                }
+            return $user;
+
     }
 }
