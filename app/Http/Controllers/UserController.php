@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use League\CommonMark\Inline\Element\Code;
 
 class UserController extends Controller
 {
@@ -76,19 +77,33 @@ class UserController extends Controller
         //El json no sea null y exista la propiedad email dentro de param si es true se asigna el valor en caso de flase es null
         $email = (!is_null($json) && isset($param->email)) ? $param->email: null; 
         $password = (!is_null($json) && isset($param->password)) ? $param->password: null;
-        $getToken = (!is_null($json) && isset($param->getToken)) ? $param->getToken: true;
+        $getToken = (!is_null($json) && isset($param->getToken)) ? $param->getToken: null;
         
         //cifrar la password
         $pwd = hash('sha256', $password); //'sha256 algoritmo de cifrado
         
         //Comprobacion
-        if(!is_null($email) && !is_null($password)){
+        if(!is_null($email) && !is_null($password) && ($getToken == null || $getToken == 'false')){
             $signup = $jwtAuth->signup($email, $pwd);
-            return response()->json($signup, 200);
-        }else{
-            return response()->json("error", 400);
+            // return response()->json($signup, 200);
+        }elseif ($getToken != null) {
+            //  var_dump($getToken); die();
+            $signup = $jwtAuth->signup($email, $pwd, $getToken);
+            // $signup = array(
+            //     'status' => 'success',
+            //     'code' => 200,
+            //     'message' => 'Usuario registrado correctamente'
+            // );
+            // return response()->json("error", 400);
             //   echo "ver productos"; die();
+        }else{
+            $signup = array(
+                'status' => 'error',
+                 'code' => 400,
+                'message' => 'Eviar tus datos '
+            );
         }
+        return response()->json($signup,200);
     }
 
     
