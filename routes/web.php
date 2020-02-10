@@ -27,3 +27,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::post('api/login', 'Auth\LoginController@login');
 
 
+Route::group(['middleware' => ['cors']], function () {
+    //Rutas a las que se permitirá acceso
+
+    Route::post('api/login', 'UserController@login');
+    Route::post('api/register', 'UserController@register');
+});
