@@ -22,6 +22,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['cors']], function () {
     //Rutas a las que se permitirá acceso
 
-    Route::post('api/login', 'UserController@login');
-    Route::post('api/register', 'UserController@register');
+    Route::post('/login', 'UserController@login');
+    Route::post('/register', 'UserController@register');
 });
