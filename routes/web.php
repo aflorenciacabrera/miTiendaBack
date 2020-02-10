@@ -26,5 +26,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 // Route::post('api/login', 'Auth\LoginController@login');
 
-Route::post('api/login', 'UserController@login');
-Route::post('api/register', 'UserController@register');
+

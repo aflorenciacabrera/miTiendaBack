@@ -19,3 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Route::post('api/producto','ProductoController@index');
 
+Route::group(['middleware' => ['cors']], function () {
+    //Rutas a las que se permitirá acceso
+
+    Route::post('api/login', 'UserController@login');
+    Route::post('api/register', 'UserController@register');
+});
