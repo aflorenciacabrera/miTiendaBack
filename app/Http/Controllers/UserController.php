@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Helpers\JwtAuth;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Role;
 use League\CommonMark\Inline\Element\Code;
 
 class UserController extends Controller
@@ -20,9 +21,9 @@ class UserController extends Controller
         //variables
         $name = (!is_null($json) && isset($params->name))? $params->name : null;
         $email = (!is_null($json) && isset($params->email))? $params->email : null;
-        //  $rol = '';
+       
         $password = (!is_null($json) && isset($params->password))? $params->password : null;
-
+        $rol = (!is_null($json) && isset($params->rol))? $params->rol : null;
         if(!is_null($email) && !is_null($password) && !is_null($name)){
             //crea el usario
             $user = new  User();
@@ -32,19 +33,41 @@ class UserController extends Controller
             //cifrar el passwerd
             $pwd = hash('sha256', $password);
             $user->password =$pwd;
-
+            $user->rol =$rol;
             //Comprobar usuario duplicado 
             $isset_user = User::where('email', $email)->first(); //Primer registro
+           
+                
 
+            $data = array(
+                'status' => 'success',
+                'code' => 200,
+                'message' => 'Usuario registrado correctamente'
+            );
             if(!($isset_user)){
                 //guardar el usuario
                 $user->save();
+                 //asignacion de roles
+            switch ($user['rol']) {
+                case 'admin':
+                $user
+                    ->roles()
+                    ->attach(Role::where('name', 'admin')->first());
+                break;
 
-                $data = array(
-                    'status' => 'success',
-                    'code' => 200,
-                    'message' => 'Usuario registrado correctamente'
-                );
+                case 'empleado':
+                $user
+                    ->roles()
+                    ->attach(Role::where('name', 'empleado')->first());
+                break;
+
+                case 'cliente':
+                    $user
+                    ->roles()
+                    ->attach(Role::where('name', 'cliente')->first());
+                break;
+                }
+                
             }else{
                 //No guardar porque ya existe
                 $data = array(

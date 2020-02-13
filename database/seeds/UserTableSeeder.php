@@ -30,6 +30,7 @@ class UserTableSeeder extends Seeder
         $user->name = 'Admin';
         $user->email = 'admin@example.com';
         $user->password =hash('sha256', '12345678');
+        $user->rol = 'admin';
         $user->save();
         $user->roles()->attach($role_admin);
 
@@ -37,6 +38,7 @@ class UserTableSeeder extends Seeder
         $user->name = 'Empleado 1';
         $user->email = 'empleado1@example.com';
         $user->password = hash('sha256', '12345678');
+        $user->rol = 'empleado';
         $user->save();
         $user->roles()->attach($role_empleado);
 
@@ -44,6 +46,7 @@ class UserTableSeeder extends Seeder
         $user->name = 'Cliente 1';
         $user->email = 'cliente1@example.com';
         $user->password = hash('sha256', '12345678');
+        $user->rol = 'cliente';
         $user->save();
         $user->roles()->attach($role_cliente);
     }

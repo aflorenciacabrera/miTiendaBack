@@ -86,13 +86,13 @@ class RegisterController extends Controller
                     ->attach(Role::where('name', 'admin')->first());
                 break;
 
-                case 'cliente':
+                case 'empleado':
                 $user
                     ->roles()
                     ->attach(Role::where('name', 'empleado')->first());
                 break;
 
-                case 'tecnico':
+                case 'cliente':
                     $user
                     ->roles()
                     ->attach(Role::where('name', 'cliente')->first());
