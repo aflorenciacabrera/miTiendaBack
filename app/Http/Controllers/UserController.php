@@ -106,7 +106,7 @@ class UserController extends Controller
         $pwd = hash('sha256', $password); //'sha256 algoritmo de cifrado
         
         //Comprobacion
-        if(!is_null($email) && !is_null($password) && ($getToken == null || $getToken == 'false')){
+        if(!is_null($email) && !is_null($password) && ($getToken == null || $getToken == 'true')){
             $signup = $jwtAuth->signup($email, $pwd);
             // return response()->json($signup, 200);
         }elseif ($getToken != null) {
