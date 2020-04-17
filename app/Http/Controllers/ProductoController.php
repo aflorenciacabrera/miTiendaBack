@@ -58,7 +58,7 @@ class ProductoController extends Controller
         $request->merge($params_array);
         Try{
             $validate = $this->validate($request,[
-                'titulo' => 'required|min:5',
+                'titulo' => 'required',
                 'categoria' => 'required',
                 'precio' => 'required',
                 'descripcion' => 'required',
