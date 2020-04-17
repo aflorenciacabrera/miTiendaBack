@@ -15,15 +15,17 @@ class CreateProductosTable extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
             $table->string('titulo');
             $table->string('categoria');
             $table->string('precio');
             $table->string('descripcion');
             $table->string('imagenProducto')->nullable();
+            $table->string('disponible');
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *
