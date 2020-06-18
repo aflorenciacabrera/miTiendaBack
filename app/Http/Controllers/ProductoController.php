@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Helpers\JwtAuth;
-
-// Para la descarga de pdf
-use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Symfony\Component\HttpFoundation\Response;
 
 use App\producto;
 use PhpParser\Node\Stmt\TryCatch;
@@ -82,8 +82,15 @@ class ProductoController extends Controller
             $producto->categoria = $params->categoria;
             $producto->precio = $params->precio;
             $producto->descripcion = $params->descripcion;
-            $producto->imagenProducto = $params->imagenProducto;
+            // $producto->imagenProducto = $params->imagenProducto;
             $producto->disponible = $params->disponible;
+
+            $image = $request->file('image');
+            if($image){
+                $image_path = $producto->imagenProducto->getClientOriginalName();
+                Storage::disk('images')->put($image_path, File::get($image));
+                $producto->imagenProducto = $image_path;
+            }
             $producto->save();
 
             $data = array(
@@ -102,17 +109,6 @@ class ProductoController extends Controller
         };
         return response()->json($data, 200);
  
-     }
-
-    public function download()
-    {
-        $data = [
-            'titulo' => 'Styde.net'
-        ];
-
-        $pdf = PDF::loadView('pdf', $data);
-
-        return $pdf->download('archivo.pdf');
-    }
+     } 
 
 }
