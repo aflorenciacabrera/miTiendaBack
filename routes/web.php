@@ -23,6 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+Route::get("/storage/{filePath}", "FileController@fileStorageServe")->where(["filePath" => ".*"]);
 
 
 // Route::post('api/producto','ProductoController@index');

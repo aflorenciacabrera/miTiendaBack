@@ -32,8 +32,8 @@ class ProductoController extends Controller
         
     }
 
-    public function crear(Request $request){
-        // return response($request);
+    public function crear(request $request)
+    {
         $hash = $request->header('Authorization', null);
 
         $jwtAuth = new JwtAuth();
@@ -41,74 +41,44 @@ class ProductoController extends Controller
 
         if($checkToken){
 
-        // Recojer datos por post
-        $json = $request->input('json', null);
-        // print_r($json);
-        //  return response($json);
-
-        $params = json_decode($json);
-        $params_array = json_decode($json, true);
-        //  print_r($params_array);
-        //  return response($params_array);
-
-        // Usuario identificado
-         $user = $jwtAuth->checkToken($hash, true);
-        
-        // Validación
-        $request->merge($params_array);
-        Try{
-            $validate = $this->validate($request,[
-                'titulo' => 'required',
-                'categoria' => 'required',
-                'precio' => 'required',
-                'descripcion' => 'required',
-                'imagenProducto' => '',
-                'disponible' => 'required',
-            ]);
-            //  var_dump($validate); die();
-        }catch(\Illuminate\Validation\ValidationException $e){
-            return $e->getResponse();
-        }
-        
-        // $errors = $validate->errors();
-        // if($errors){
-        //     return $errors->toJson();
-        // }
-
-        // Guardar el producto
+            $user = $jwtAuth->checkToken($hash, true);
             $producto = new producto();
             $producto->user_id = $user->sub;
-            $producto->titulo = $params->titulo;
-            $producto->categoria = $params->categoria;
-            $producto->precio = $params->precio;
-            $producto->descripcion = $params->descripcion;
-            // $producto->imagenProducto = $params->imagenProducto;
-            $producto->disponible = $params->disponible;
+            $producto->titulo = $request->titulo;
+            $producto->categoria = $request->categoria;
+            $producto->precio = $request->precio;
+            $producto->descripcion = $request->descripcion;
+            // $producto->imagenProducto = $request->imagenProducto;
+            $producto->disponible = $request->disponible;
 
-            $image = $request->file('image');
-            if($image){
-                $image_path = $producto->imagenProducto->getClientOriginalName();
-                Storage::disk('images')->put($image_path, File::get($image));
-                $producto->imagenProducto = $image_path;
+            if($request->imagenProducto)
+            {
+                $path = $request->imagenProducto->store('images');
+                $producto->imagenProducto = $path;
             }
+            
+            // return $request;
             $producto->save();
-
+            
             $data = array(
-                'producto' => $producto,
+                'producto' => $producto->toJson(),
                 'status' => 'success',
                 'code' => 200,
             );
-
-        }else{
-           // Devolver Error
-           $data = array(
+            
+        }
+        else
+        {
+        // Devolver Error
+        $data = array(
             'message' => 'Login incorrecto',
             'status' => 'error',
             'code' => 300,
             );
         };
-        return response()->json($data, 200);
- 
-     } 
+    return response()->json($data, 200);
+    }
+
+   
 
 }
