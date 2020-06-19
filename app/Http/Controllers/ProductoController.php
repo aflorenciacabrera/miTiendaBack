@@ -25,7 +25,7 @@ class ProductoController extends Controller
         $checkToken = $jwtAuth->checkToken($hash);
 
         if($checkToken){
-            echo "Index de  productoController Autenticado"; die();
+            echo "Index de productoController Autenticado"; die();
         }else{
             echo "No Autentucado->Index de  productoController"; die();
         };
@@ -79,6 +79,10 @@ class ProductoController extends Controller
     return response()->json($data, 200);
     }
 
-   
+    public function galeria(){
+        $galeria = producto::all();
+        // return view('producto.galeria',compact('galeria'));
+        return response()->json($galeria);
+    }
 
 }
