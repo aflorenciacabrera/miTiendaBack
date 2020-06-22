@@ -80,9 +80,21 @@ class ProductoController extends Controller
     }
 
     public function galeria(){
-        $galeria = producto::all();
+         $galeria = producto::all();
+        
         // return view('producto.galeria',compact('galeria'));
-        return response()->json($galeria);
+         return response()->json($galeria);
+        // return view('producto')->with('images',$galeria);
+      
+    }
+
+    public function imagenes(){
+        $galerias = File::allFiles(public_path('images'));
+        $array_img= [];
+        foreach( $galerias as $galeria){
+            $array_img[]  = $galeria->getrelativePathname();
+        }
+        return response()->json($array_img );
     }
 
 }

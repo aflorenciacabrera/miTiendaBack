@@ -31,4 +31,5 @@ Route::group(['middleware' => ['cors']], function () {
     Route::get('producto', 'ProductoController@index');
     Route::post('/producto/crear', 'ProductoController@crear');
     Route::get('producto/galeria', 'ProductoController@galeria');
+    Route::get('/producto/imagenes', 'ProductoController@imagenes');
    
