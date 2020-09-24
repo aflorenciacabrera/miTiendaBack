@@ -81,9 +81,9 @@ class ProductoController extends Controller
 
     public function galeria(){
          $galeria = producto::all();
-        
+        //  $galeria = producto::paginate(5);
         // return view('producto.galeria',compact('galeria'));
-         return response()->json($galeria);
+            return response()->json($galeria);
         // return view('producto')->with('images',$galeria);
       
     }

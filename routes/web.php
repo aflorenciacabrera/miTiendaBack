@@ -25,7 +25,7 @@ Route::get('/producto', 'ProductoController@imagenes');
 
 Route::get("/storage/{filePath}", "FileController@fileStorageServe")->where(["filePath" => ".*"]);
 
-
+Route::get('producto/galeria', 'ProductoController@galeria');
 // Route::post('api/producto','ProductoController@index');
 
 // Route::resource('producto', 'ProductoController');
